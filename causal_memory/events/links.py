@@ -5,6 +5,15 @@ from typing import Any, Dict, List, Optional
 from causal_memory.db.connection import get_connection
 from causal_memory.events.store import get_event_by_id
 
+def get_child_event_ids(
+    db_path: str,
+    parent_event_id: int,
+    link_type: str | None = None,
+) -> list[int]:
+    links = get_child_links(db_path, parent_event_id, link_type=link_type)
+    return [link["child_event_id"] for link in links]
+
+
 def get_all_parent_event_ids(db_path: str) -> set[int]:
     conn = get_connection(db_path)
     cur = conn.cursor()

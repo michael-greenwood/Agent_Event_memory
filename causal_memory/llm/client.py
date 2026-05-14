@@ -3,6 +3,7 @@
 import requests
 from typing import Optional
 
+#models llama3.1:8b, gpt-oss:120b
 
 class OllamaClient:
 
@@ -11,10 +12,12 @@ class OllamaClient:
         base_url: str = "http://132.156.103.65:11434/api/generate",
         model: str = "llama3.1:8b",
         timeout_s: int = 90,
+        options: dict | None = None,
     ):
         self.base_url = base_url
         self.model = model
         self.timeout_s = timeout_s
+        self.options = options or {"temperature": 0}
 
     def query(
         self,
@@ -33,6 +36,7 @@ class OllamaClient:
                 "model": self.model,
                 "prompt": full_prompt,
                 "stream": False,
+                "options": self.options,
             },
             timeout=self.timeout_s,
         )

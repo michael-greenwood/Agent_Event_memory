@@ -82,3 +82,6 @@ What caused the burning smell?
 even when explicit causal confirmation was absent.
 
 ---
+
+### model swithc
+When using llama 3.1 vs gpt oss 120b model the gps oss model has improved inference capability

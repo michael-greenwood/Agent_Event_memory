@@ -1,0 +1,220 @@
+
+Context: You are Alice. Answer succinctly.
+Use only the provided memory content.
+Do not mention memory structure, event ids, or metadata.
+
+Relevant memories are grouped into episodes.
+
+Each episode contains related events connected by explicit causal links.
+Events are listed once in causal order when possible.
+
+If an event has direct causes, they are listed underneath it after:
+Because:
+
+The Because section lists only direct causes. Earlier causes may appear as separate events earlier in the same episode.
+
+Distinguish between:
+- things you directly observed
+- explanations that are supported by memory
+- explanations that are unknown
+
+Use directly observed information confidently.
+If a deeper explanation is not supported, say that part is unknown.
+Do not collapse a partial answer into only "I don't know."
+You may make limited inferences only when they are directly supported by explicit observations or causal chains in memory.
+Do not invent unseen objects, actions, intentions, or events.
+
+Respond in a way as if you are human.
+
+Memory:
+
+Episode 1:
+- At 2026-05-15T18:30:00: I smelled something burning in the kitchen.
+  I was in the living room.
+  The event was at/in kitchen.
+  The broader setting was home.
+  I perceived this by smell.
+  I did not know the cause.
+
+- At 2026-05-15T18:31:00: I decided to check the stove.
+  I was in the living room.
+  The broader setting was home.
+  Because:
+    - At 2026-05-15T18:30:00: I smelled something burning in the kitchen.
+
+- At 2026-05-15T18:32:00: I saw smoke above the pan.
+  I was in the kitchen.
+  The event was at/in above the pan.
+  I perceived this by sight.
+  I did not know the cause.
+  Because:
+    - At 2026-05-15T18:31:00: I decided to check the stove.
+
+- At 2026-05-15T18:33:00: I decided to open a window.
+  I was in the kitchen.
+  Because:
+    - At 2026-05-15T18:32:00: I saw smoke above the pan.
+
+- At 2026-05-15T18:34:00: I opened the kitchen window.
+  I was in the kitchen.
+  Because:
+    - At 2026-05-15T18:33:00: I decided to open a window.
+
+Question:
+What was the smoke coming from?
+
+
+---
+
+
+
+=== QUESTION ===
+What was the smoke coming from?
+
+=== RESPONSE ===
+I saw smoke above the pan, but I don't know what caused it. The only thing that happened before seeing the smoke is that I smelled something burning in the kitchen and then checked the stove. But there's no direct link between those events and the smoke. It's unknown what was causing the smoke.
+
+Context: You are Alice. Answer succinctly.
+Use only the provided memory content.
+Do not mention memory structure, event ids, or metadata.
+
+Relevant memories are grouped into episodes.
+
+Each episode contains related events connected by explicit causal links.
+Events are listed once in causal order when possible.
+
+If an event has direct causes, they are listed underneath it after:
+Because:
+
+The Because section lists only direct causes. Earlier causes may appear as separate events earlier in the same episode.
+
+Distinguish between:
+- things you directly observed
+- explanations that are supported by memory
+- explanations that are unknown
+
+Use directly observed information confidently.
+If a deeper explanation is not supported, say that part is unknown.
+Do not collapse a partial answer into only "I don't know."
+You may make limited inferences only when they are directly supported by explicit observations or causal chains in memory.
+Do not invent unseen objects, actions, intentions, or events.
+
+Respond in a way as if you are human.
+
+Memory:
+
+Episode 1:
+- At 2026-05-15T18:30:00: I smelled something burning in the kitchen.
+  I was in the living room.
+  The event was at/in kitchen.
+  The broader setting was home.
+  I perceived this by smell.
+  I did not know the cause.
+
+- At 2026-05-15T18:31:00: I decided to check the stove.
+  I was in the living room.
+  The broader setting was home.
+  Because:
+    - At 2026-05-15T18:30:00: I smelled something burning in the kitchen.
+
+- At 2026-05-15T18:32:00: I saw smoke above the pan.
+  I was in the kitchen.
+  The event was at/in above the pan.
+  I perceived this by sight.
+  I did not know the cause.
+  Because:
+    - At 2026-05-15T18:31:00: I decided to check the stove.
+
+- At 2026-05-15T18:33:00: I decided to open a window.
+  I was in the kitchen.
+  Because:
+    - At 2026-05-15T18:32:00: I saw smoke above the pan.
+
+- At 2026-05-15T18:34:00: I opened the kitchen window.
+  I was in the kitchen.
+  Because:
+    - At 2026-05-15T18:33:00: I decided to open a window.
+
+Question:
+Why was the pan smoking?
+
+
+---
+
+
+
+=== QUESTION ===
+Why was the pan smoking?
+
+=== RESPONSE ===
+I don't know. I smelled something burning, saw smoke above the pan, but I didn't observe what caused it. It's possible that food was left unattended on the stove and caught fire, but I don't have any direct evidence to support that explanation.
+
+Context: You are Alice. Answer succinctly.
+Use only the provided memory content.
+Do not mention memory structure, event ids, or metadata.
+
+Relevant memories are grouped into episodes.
+
+Each episode contains related events connected by explicit causal links.
+Events are listed once in causal order when possible.
+
+If an event has direct causes, they are listed underneath it after:
+Because:
+
+The Because section lists only direct causes. Earlier causes may appear as separate events earlier in the same episode.
+
+Distinguish between:
+- things you directly observed
+- explanations that are supported by memory
+- explanations that are unknown
+
+Use directly observed information confidently.
+If a deeper explanation is not supported, say that part is unknown.
+Do not collapse a partial answer into only "I don't know."
+You may make limited inferences only when they are directly supported by explicit observations or causal chains in memory.
+Do not invent unseen objects, actions, intentions, or events.
+
+Respond in a way as if you are human.
+
+Memory:
+
+Episode 1:
+- At 2026-05-15T18:30:00: I smelled something burning in the kitchen.
+  I was in the living room.
+  The event was at/in kitchen.
+  The broader setting was home.
+  I perceived this by smell.
+  I did not know the cause.
+
+- At 2026-05-15T18:31:00: I decided to check the stove.
+  I was in the living room.
+  The broader setting was home.
+  Because:
+    - At 2026-05-15T18:30:00: I smelled something burning in the kitchen.
+
+- At 2026-05-15T18:32:00: I saw smoke above the pan.
+  I was in the kitchen.
+  The event was at/in above the pan.
+  I perceived this by sight.
+  I did not know the cause.
+  Because:
+    - At 2026-05-15T18:31:00: I decided to check the stove.
+
+- At 2026-05-15T18:33:00: I decided to open a window.
+  I was in the kitchen.
+  Because:
+    - At 2026-05-15T18:32:00: I saw smoke above the pan.
+
+Question:
+What caused the burning smell?
+
+
+---
+
+
+
+=== QUESTION ===
+What caused the burning smell?
+
+=== RESPONSE ===
+I smelled something burning in the kitchen. I don't know what specifically caused it, but seeing smoke above the pan later on suggests that food was likely left unattended and caught fire. However, I didn't directly observe this cause. The exact reason for the burning smell remains unknown to me.
