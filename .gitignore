@@ -1,0 +1,101 @@
+# =========================
+# Python
+# =========================
+
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# =========================
+# Virtual Environments
+# =========================
+
+venv/
+.env/
+.venv/
+
+# =========================
+# Build / Packaging
+# =========================
+
+build/
+dist/
+*.egg-info/
+
+# =========================
+# IDEs
+# =========================
+
+.vscode/
+.idea/
+
+# =========================
+# OS Files
+# =========================
+
+.DS_Store
+Thumbs.db
+
+# =========================
+# Local Databases
+# =========================
+
+*.db
+*.sqlite
+*.sqlite3
+
+# =========================
+# Local Data / Generated Files
+# =========================
+
+data/*.db
+data/*.sqlite
+data/*.sqlite3
+
+# Keep directory structure
+!data/.gitkeep
+
+# =========================
+# Logs
+# =========================
+
+*.log
+
+# =========================
+# Jupyter
+# =========================
+
+.ipynb_checkpoints/
+
+# =========================
+# Environment Variables
+# =========================
+
+.env.local
+.env.production
+.env.development
+
+# =========================
+# Temporary Files
+# =========================
+
+tmp/
+temp/
+*.tmp
+
+# =========================
+# Model Outputs / Caches
+# =========================
+
+cache/
+outputs/
+artifacts/
+
+# =========================
+# Coverage / Testing
+# =========================
+
+.coverage
+htmlcov/
+.pytest_cache/
