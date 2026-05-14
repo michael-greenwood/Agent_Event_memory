@@ -5,6 +5,19 @@ from typing import Any, Dict, List, Optional
 from causal_memory.db.connection import get_connection
 from causal_memory.events.store import get_event_by_id
 
+def get_all_parent_event_ids(db_path: str) -> set[int]:
+    conn = get_connection(db_path)
+    cur = conn.cursor()
+
+    cur.execute("""
+    SELECT DISTINCT parent_event_id
+    FROM event_links
+    """)
+
+    rows = cur.fetchall()
+    conn.close()
+
+    return {row["parent_event_id"] for row in rows}
 
 def row_to_event_link(row: sqlite3.Row) -> Dict[str, Any]:
     return {

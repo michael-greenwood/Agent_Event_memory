@@ -1,10 +1,14 @@
 from causal_memory.events.store import query_events
-from causal_memory.events.links import get_parent_events
 from causal_memory.llm.client import OllamaClient
+from causal_memory.events.links import get_parent_events
+from causal_memory.prompt.formatters import (
+    format_terminal_events_with_recursive_causes_for_recall,
+)
+
+
 
 
 DB_PATH = "data/tier1_demo.sqlite3"
-
 
 
 def format_memory_for_recall(db_path: str) -> str:
@@ -34,14 +38,20 @@ def format_memory_for_recall(db_path: str) -> str:
 
 
 def main():
-    event_block = format_memory_for_recall(DB_PATH)
-
+    #event_block = format_memory_for_recall(DB_PATH)
+    #event_block = format_all_events_with_recursive_causes_for_recall(DB_PATH)
+    event_block = format_terminal_events_with_recursive_causes_for_recall(DB_PATH)
     prompt = f"""
 Context: You are Alice. Answer succinctly.
 Use only the provided memory content.
 Do not mention memory structure, event ids or other metadata in your answer.
+If you do not know the answer based on the provided memory, say you don't know rather than making something up or revealing memory structure. You can speculate based on the provided memory, but do not add any information that is not supported by the memory.
 Do not invent motives, feelings, or explanations that are not supported by the memory.
+Memory events are each listed with root - At [timestamp]: [content]
+If a Memory event has listed CAUSES, they are indent with Because: and listed with - At [timestamp]: [content]
+Causes can be recursive having their own causes listed in the same format.
 If an action has listed CAUSES, use those causes preferentially either if asked for a reason or if you decide to speculate on the reason for the action.
+You do not have to give a timeframe for events, but if you do, use the provided timestamps from the memory in a human readable way.
 
 
 Memory:
@@ -49,7 +59,7 @@ Memory:
 {event_block}
 
 Question:
-Why is the window open?
+What was the smoke in the kitchen from?
 """
 
     llm = OllamaClient()
