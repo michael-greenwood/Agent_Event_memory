@@ -43,3 +43,56 @@ scripts/test2_long_chain_causal_recall/
 Constructed a longer autobiographical memory containing multiple independent causal chains intermixed with unrelated observations and timestamp-separated events.
 
 The test evaluates whether the LLM can correctly recall and explain actions using explicit causal links while avoiding blending unrelated nearby memories when presented with a larger full-memory context.
+
+
+
+## Test 3 — Epistemic reasoning on memory
+
+Directory:
+
+```text
+scripts/test3_epistemic_reasoning_on_memory/
+```
+
+### Summary
+
+Tested whether the LLM could distinguish between directly observed facts stored in memory and unsupported inferred explanations.
+
+The experiment focused on whether the system could:
+- preserve uncertainty correctly
+- avoid hallucinating unsupported causal explanations
+- separate observed events from inferred causes
+- answer naturally without exposing memory structure
+
+The test used recursive causal memory chains containing observations, decisions, and actions, while intentionally omitting the root cause of a kitchen smoke event.
+
+Expected behavior was for the model to correctly state that smoke was observed above the pan while acknowledging that the underlying cause of the smoke was unknown.
+
+
+## Test 4 — Rich event metadata and inferred state transitions
+
+Directory:
+
+```text
+scripts/test4_rich_event_metadata/
+```
+
+### Summary
+
+Tested whether richer structured event metadata improves grounded reasoning and autobiographical recall quality.
+
+The experiment extends the event representation beyond plain text content by incorporating additional contextual metadata such as:
+- agent location
+- event location
+- scene location
+- perception type
+- epistemic status
+- confidence
+
+The test evaluates whether richer event structure allows the system to:
+- better distinguish observations from inferred explanations
+- infer implicit state transitions such as movement between locations
+- reduce unsupported hallucinated explanations
+- support more grounded causal reasoning across event chains
+
+The experiment also explores whether inferred transitions and beliefs should be stored as distinct inference events rather than merged into observed memory.

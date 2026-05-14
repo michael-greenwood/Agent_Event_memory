@@ -1,0 +1,1 @@
+The system can preserve uncertainty when prompted carefully, but it still tends to infer causality from temporal/semantic proximity unless causal status is explicit.
