@@ -1,15 +1,46 @@
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional, Set
 
 from causal_memory.events.store import query_events, get_event_by_id
-from causal_memory.events.links import get_parent_events
-from causal_memory.events.links import get_all_parent_event_ids
+from causal_memory.events.links import get_parent_events, get_all_parent_event_ids
+
+
+def format_event_context(event: Dict[str, Any]) -> List[str]:
+    metadata = event.get("metadata") or {}
+    lines: List[str] = []
+
+    agent_location = metadata.get("agent_location")
+    event_location = metadata.get("event_location")
+    scene_location = metadata.get("scene_location")
+    perception_type = metadata.get("perception_type")
+    known_cause = metadata.get("known_cause")
+
+    if agent_location:
+        lines.append(f"I was in the {agent_location}.")
+
+    if event_location and event_location != agent_location:
+        lines.append(f"The event was at/in {event_location}.")
+
+    if scene_location and scene_location not in {agent_location, event_location}:
+        lines.append(f"The broader setting was {scene_location}.")
+
+    if perception_type:
+        lines.append(f"I perceived this by {perception_type}.")
+
+    if known_cause is None and "known_cause" in metadata:
+        lines.append("I did not know the cause.")
+
+    elif known_cause:
+        lines.append(f"I knew the cause was {known_cause}.")
+
+    return lines
+
 
 def _format_event_recursive(
     db_path: str,
     event_id: int,
     depth: int = 0,
-    visited=None,
-) -> list[str]:
+    visited: Optional[Set[int]] = None,
+) -> List[str]:
     if visited is None:
         visited = set()
 
@@ -19,6 +50,7 @@ def _format_event_recursive(
     visited.add(event_id)
 
     event = get_event_by_id(db_path, event_id)
+
     if event is None:
         return []
 
@@ -28,6 +60,9 @@ def _format_event_recursive(
     lines = [
         f"{indent}- {timestamp}{event['content']}"
     ]
+
+    for context_line in format_event_context(event):
+        lines.append(f"{indent}  {context_line}")
 
     parents = get_parent_events(db_path, event_id)
 
@@ -54,7 +89,7 @@ def format_terminal_events_with_recursive_causes_for_recall(
     events = query_events(db_path=db_path, limit=limit)
     parent_ids = get_all_parent_event_ids(db_path)
 
-    lines = []
+    lines: List[str] = []
 
     for event in events:
         if event["id"] in parent_ids:
@@ -71,6 +106,7 @@ def format_terminal_events_with_recursive_causes_for_recall(
         lines.append("")
 
     return "\n".join(lines).strip()
+
 
 def format_events_for_prompt(events: List[Dict[str, Any]]) -> str:
     lines = []
