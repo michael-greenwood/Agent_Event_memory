@@ -1,7 +1,7 @@
 from causal_memory.db.schema import initialize_database
 from causal_memory.events.store import insert_event, get_sequence_events
 from causal_memory.events.links import insert_event_link
-from causal_memory.prompt.formatters import format_events_for_prompt
+from causal_memory.prompt.event_formatters import format_events_for_prompt
 
 
 DB_PATH = "data/tier1_demo.sqlite3"

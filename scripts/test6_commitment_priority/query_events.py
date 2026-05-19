@@ -1,7 +1,7 @@
 from causal_memory.llm.client import OllamaClient
 from causal_memory.retrieval.simple import retrieve_relevant_events
 from causal_memory.retrieval.graph import retrieve_causal_subgraphs
-from causal_memory.prompt.formatters import format_causal_subgraphs_for_recall
+from causal_memory.prompt.recall_formatters import format_causal_subgraphs_for_recall
 
 DB_PATH = "data/tier1_demo.sqlite3"
 
