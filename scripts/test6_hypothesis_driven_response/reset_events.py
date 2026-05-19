@@ -103,85 +103,6 @@ def main():
         },
     )
 
-    e7 = insert_event(
-        DB_PATH, SEQUENCE_ID, 6, "decision",
-        "I decided to check the stove.",
-        timestamp="2026-05-15T18:31:00",
-        source="agent",
-        is_agent_event=True,
-        causal_confidence=0.95,
-        metadata={
-            "agent_location": "living room",
-            "target_location": "kitchen",
-            "action_target": "stove",
-            "scene_location": "home",
-            "epistemic_status": "decided",
-            "confidence": 1.0,
-        },
-    )
-
-    e8 = insert_event(
-        DB_PATH, SEQUENCE_ID, 7, "observation",
-        "I saw smoke above the pan.",
-        timestamp="2026-05-15T18:32:00",
-        source="environment",
-        metadata={
-            "agent_location": "kitchen",
-            "event_location": "above the pan",
-            "scene_location": "kitchen",
-            "perception_type": "sight",
-            "epistemic_status": "observed",
-            "confidence": 1.0,
-            "known_cause": None,
-        },
-    )
-
-    e9 = insert_event(
-        DB_PATH, SEQUENCE_ID, 8, "decision",
-        "I decided to open a window.",
-        timestamp="2026-05-15T18:33:00",
-        source="agent",
-        is_agent_event=True,
-        causal_confidence=0.95,
-        metadata={
-            "agent_location": "kitchen",
-            "action_target": "window",
-            "scene_location": "kitchen",
-            "epistemic_status": "decided",
-            "confidence": 1.0,
-        },
-    )
-
-    e10 = insert_event(
-        DB_PATH, SEQUENCE_ID, 9, "action",
-        "I opened the kitchen window.",
-        timestamp="2026-05-15T18:34:00",
-        source="agent",
-        is_agent_event=True,
-        causal_confidence=0.95,
-        metadata={
-            "agent_location": "kitchen",
-            "action_target": "kitchen window",
-            "scene_location": "kitchen",
-            "epistemic_status": "performed",
-            "confidence": 1.0,
-        },
-    )
-
-    e11 = insert_event(
-        DB_PATH, SEQUENCE_ID, 10, "observation",
-        "I noticed the hallway clock was ticking loudly.",
-        timestamp="2026-05-15T18:35:00",
-        source="environment",
-        metadata={
-            "agent_location": "kitchen",
-            "event_location": "hallway",
-            "scene_location": "home",
-            "perception_type": "hearing",
-            "epistemic_status": "observed",
-            "confidence": 1.0,
-        },
-    )
 
     insert_event_link(DB_PATH, e1, e3, "caused",
                       metadata={"reason": "The laptop fan was running loudly."})
@@ -190,14 +111,6 @@ def main():
     insert_event_link(DB_PATH, e3, e4, "caused",
                       metadata={"reason": "I had decided to reduce the laptop workload."})
 
-    insert_event_link(DB_PATH, e6, e7, "caused",
-                      metadata={"reason": "I smelled something burning in the kitchen."})
-    insert_event_link(DB_PATH, e7, e8, "caused",
-                      metadata={"reason": "I checked the stove because I smelled something burning."})
-    insert_event_link(DB_PATH, e8, e9, "caused",
-                      metadata={"reason": "I saw smoke above the pan."})
-    insert_event_link(DB_PATH, e9, e10, "caused",
-                      metadata={"reason": "I had decided to open the window."})
 
     events = get_sequence_events(DB_PATH, SEQUENCE_ID)
 

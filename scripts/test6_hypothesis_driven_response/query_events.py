@@ -1,85 +1,89 @@
 from causal_memory.llm.client import OllamaClient
 from causal_memory.retrieval.simple import retrieve_relevant_events
 from causal_memory.retrieval.graph import retrieve_causal_subgraphs
-from causal_memory.prompt.formatters import (
-    format_causal_subgraphs_for_recall,
-)
+from causal_memory.prompt.formatters import format_causal_subgraphs_for_recall
+
 DB_PATH = "data/tier1_demo.sqlite3"
 
-
-QUESTIONS = [
-    "What was the smoke coming from?",
-    "Why was the pan smoking?",
-    "What caused the burning smell?",
-]
-
-
-def build_prompt(event_block: str, question: str) -> str:
-    prompt = f"""
-Context: You are Alice. Answer succinctly.
-Use only the provided memory content.
-Do not mention memory structure, event ids, or metadata.
-
-Relevant memories are grouped into episodes.
-
-Each episode contains related events connected by explicit causal links.
-Events are listed once in causal order when possible.
-
-If an event has direct causes, they are listed underneath it after:
-Because:
-
-The Because section lists only direct causes. Earlier causes may appear as separate events earlier in the same episode.
-
-Distinguish between:
-- things you directly observed
-- explanations that are supported by memory
-- explanations that are unknown
-
-Use directly observed information confidently.
-If a deeper explanation is not supported, say that part is unknown.
-Do not collapse a partial answer into only "I don't know."
-You may make limited inferences only when they are directly supported by explicit observations or causal chains in memory.
-Do not invent unseen objects, actions, intentions, or events.
-
-Respond in a way as if you are human.
-
-Memory:
-
-{event_block}
-
-Question:
-{question}
+CURRENT_EVENT = """
+At 2026-05-15T18:30:00:
+I smelled something burning in the kitchen.
+I was in the living room.
+The event was at/in the kitchen.
+I perceived this by smell.
+I did not know the cause.
 """
-    return prompt
+
+
+def build_prompt(memory_block: str, current_event: str) -> str:
+    return f"""
+You are Alice.
+
+A new environment event has just occurred.
+
+Your task is not to recall a past answer.
+Your task is to interpret the current event and decide what to do next.
+
+Use only:
+1. the current event
+2. relevant prior memories, if any
+
+Do not invent observed facts.
+Speculation is allowed only if clearly labeled as uncertain.
+Do not say something is known unless it was directly observed or supported by memory.
+
+Relevant prior memories:
+
+{memory_block}
+
+Current event:
+
+{current_event}
+
+Determine:
+
+1) What did I observe?
+2) What hypotheses might explain it?
+3) What uncertainty remains?
+4) What should I do next?
+5) Why is that a reasonable action?
+
+Respond exactly in this format:
+
+Observation:
+Hypothesis:
+Uncertainty:
+Decision:
+Intended Action:
+Reason:
+"""
 
 
 def main():
     llm = OllamaClient()
 
-    #event_block = format_terminal_events_with_recursive_causes_for_recall(DB_PATH)
+    query = "I smelled something burning in the kitchen."
 
-    for question in QUESTIONS:
-        seed_events = retrieve_relevant_events(DB_PATH, question, limit=1)
-        subgraphs = retrieve_causal_subgraphs(
-            DB_PATH,
-            seed_events,
-            parent_depth=3,
-            child_depth=3,
-        )
+    seed_events = retrieve_relevant_events(DB_PATH, query, limit=3)
 
-        event_block = format_causal_subgraphs_for_recall(subgraphs)
-#        print("\n=== RETRIEVED EVENTS ===")
-#        for e in relevant_events:
-#            print(e["id"], e["event_type"], e["content"])
-        prompt = build_prompt(event_block, question)
-        print(prompt   + "\n\n---\n\n")
-        response = llm.query(prompt)
+    subgraphs = retrieve_causal_subgraphs(
+        DB_PATH,
+        seed_events,
+        parent_depth=2,
+        child_depth=2,
+    )
 
-        print("\n=== QUESTION ===")
-        print(question)
+    memory_block = format_causal_subgraphs_for_recall(subgraphs)
 
-        print("\n=== RESPONSE ===")
-        print(response)
+    prompt = build_prompt(memory_block, CURRENT_EVENT)
+
+    print("\n=== PROMPT ===")
+    print(prompt)
+
+    response = llm.query(prompt)
+
+    print("\n=== RESPONSE ===")
+    print(response)
 
 
 if __name__ == "__main__":
